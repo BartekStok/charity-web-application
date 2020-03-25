@@ -14,7 +14,7 @@ class LandingPageView(View):
         donation_quantity = sum([inst.quantity for inst in donation])
         institution = Institution.objects.count()
 
-        """ Pagination for index view"""
+        """Pagination for index view"""
         foundations_list = Institution.objects.filter(type="Fundacja").order_by("id")
         foundations_pagi = Paginator(foundations_list, 5)
         foundations_page = request.GET.get("page")
