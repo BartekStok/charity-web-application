@@ -63,9 +63,17 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       const page = e.target.dataset.page;
 
+      // [...this.$el.children].forEach(btn => btn.firstElementChild.classList.remove("active"));
+      // $btn.classList.add("active");
+
+
+
+
       console.log(page);
     }
   }
+  // end of class help
+
   const helpSection = document.querySelector(".help");
   if (helpSection !== null) {
     new Help(helpSection);

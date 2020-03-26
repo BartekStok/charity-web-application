@@ -94,21 +94,27 @@
 
             <div class="col"><div class="text">
               {% for category in foundation.categories.all %}
-                {{ category.name }},
+                {{ category.name }},&nbsp
               {% endfor %}
             </div></div>
           </li>
           {% endfor %}
         </ul>
-{#        <!-- Pagination#}
+        {#        <!-- Pagination#}
+
         <ul class="help--slides-pagination">
-          {% for page in foundations %}
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="{{ page.page }}">{{ page.page }}</a></li>
-{#          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>#}
-{#          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>#}
+          {% for page in foundations.paginator.page_range %}
+            {% if foundations.number == page %}
+              <li><a href="?page={{ page }}"
+                     class="btn btn--small btn--without-border active" data-page="{{ page }}">{{ page }}</a></li>
+            {% else %}
+              <li><a href="?page={{ page }}"
+                     class="btn btn--small btn--without-border" data-page="{{ page }}">{{ page }}</a></li>
+            {% endif %}
           {% endfor %}
         </ul>
-{#        -->#}
+
+        {#        -->#}
       </div>
 
 
