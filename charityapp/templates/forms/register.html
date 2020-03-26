@@ -10,25 +10,41 @@
 
     <section class="login-page">
       <h2>Załóż konto</h2>
-      <form>
+      <form action="#" method="post">
+        {% csrf_token %}
         <div class="form-group">
-          <input type="text" name="name" placeholder="Imię" />
+{#          <input type="text" name="name" placeholder="Imię" />#}
+          {{ form.first_name.label }}
+          {{ form.first_name }}
+          {{ form.first_name.errors }}
         </div>
          <div class="form-group">
-          <input type="text" name="surname" placeholder="Nazwisko" />
+{#          <input type="text" name="surname" placeholder="Nazwisko" />#}
+           {{ form.last_name.label }}
+           {{ form.last_name }}
+           {{ form.last_name.errors }}
         </div>
         <div class="form-group">
-          <input type="email" name="email" placeholder="Email" />
+{#          <input type="email" name="email" placeholder="Email" />#}
+          {{ form.email.label }}
+          {{ form.email }}
+          {{ form.email.errors }}
         </div>
         <div class="form-group">
-          <input type="password" name="password" placeholder="Hasło" />
+{#          <input type="password" name="password" placeholder="Hasło" />#}
+          {{ form.password.label }}
+          {{ form.password }}
+          {{ form.password.errors }}
         </div>
         <div class="form-group">
-          <input type="password" name="password2" placeholder="Powtórz hasło" />
+{#          <input type="password" name="password2" placeholder="Powtórz hasło" />#}
+          {{ form.password_confirm.label }}
+          {{ form.password_confirm }}
+          {{ form.password_confirm.errors }}
         </div>
 
         <div class="form-group form-group--buttons">
-          <a href="login.html" class="btn btn--without-border">Zaloguj się</a>
+          <a href="{% url 'login' %}" class="btn btn--without-border">Zaloguj się</a>
           <button class="btn" type="submit">Załóż konto</button>
         </div>
       </form>
