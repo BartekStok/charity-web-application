@@ -99,6 +99,7 @@ class UpdateUserView(View):
     def post(self, request):
         form1 = UpdateUserForm(request.POST)
         form2 = ChangeUserPassword(request.POST, user=request.user)
+        ctx = {"form1": form1, "form2": form2}
         user = request.user
         if 'user-data' in request.POST:
             if form1.is_valid():
@@ -109,11 +110,16 @@ class UpdateUserView(View):
                 user.last_name = last_name
                 user.email = email
                 user.save()
+            else:
+                return render(request, "forms/user-settings.html", ctx)
         elif 'user-password' in request.POST:
             if form2.is_valid():
                 new_password = form2.cleaned_data['password_new']
                 user.set_password(new_password)
                 user.save()
+                return redirect("login")
+            else:
+                return render(request, "forms/user-settings.html", ctx)
         return redirect("landing-page")
 
 

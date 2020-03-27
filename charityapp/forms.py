@@ -78,19 +78,13 @@ class UpdateUserForm(ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'email']
 
-    def clean(self, *args, **kwargs):
-        cleaned_data = super(UpdateUserForm, self).clean()
-        password = cleaned_data.get("password")
-        password_confirm = cleaned_data.get("password_confirm")
-        if password != password_confirm:
-            raise forms.ValidationError("Hasła nie zgadzają się!")
-        # try:
-        #     user = User.objects.get(email=email)
-        #     if user.email == email:
-        #         raise forms.ValidationError("Podany email już istnieje w bazie danych")
-        # except User.DoesNotExist:
-        #     return None
-        return cleaned_data
+    # def clean(self, *args, **kwargs):
+    #     cleaned_data = super(UpdateUserForm, self).clean()
+    #     password = cleaned_data.get("password")
+    #     password_confirm = cleaned_data.get("password_confirm")
+    #     if password != password_confirm:
+    #         raise forms.ValidationError("Hasła nie zgadzają się!")
+    #     return cleaned_data
 
 
 class ChangeUserPassword(ModelForm):
