@@ -60,11 +60,10 @@ document.addEventListener("DOMContentLoaded", function() {
      * TODO: callback to page change event
      */
     changePage(e) {
-      e.preventDefault();
+      // e.preventDefault();
       const page = e.target.dataset.page;
 
-      // [...this.$el.children].forEach(btn => btn.firstElementChild.classList.remove("active"));
-      // $btn.classList.add("active");
+
 
 
 
