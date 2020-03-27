@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import HttpResponse
@@ -61,8 +61,15 @@ class LoginView(View):
                 login(request, user)
                 return redirect("landing-page")
             else:
-                return render(request, "forms/login.html", {"form": form})
+                return redirect("register")
+        else:
+            return render(request, "forms/login.html", {"form": form})
 
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect("landing-page")
 
 class RegisterView(View):
     def get(self, request):

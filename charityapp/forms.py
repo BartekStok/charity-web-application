@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.models import User
 from django.forms import ModelForm, Form
 from django import forms
@@ -10,7 +11,6 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Hasło'}))
     password_confirm = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Powtórz hasło'}))
-
 
     def clean(self):
         cleaned_data = super(RegisterForm, self).clean()
@@ -27,6 +27,7 @@ class RegisterForm(forms.Form):
             return None
         return cleaned_data
 
+
 class LoginForm(ModelForm):
     class Meta:
         model = User
@@ -35,3 +36,14 @@ class LoginForm(ModelForm):
             'password': forms.PasswordInput(attrs={'placeholder': 'Hasło'}),
             'email': forms.TextInput(attrs={'placeholder': 'Email'})
         }
+
+    def clean(self, *args, **kwargs):
+        email = self.cleaned_data.get("email")
+        password = self.cleaned_data.get("password")
+        try:
+            user = User.objects.get(email=email)
+            if not user.check_password(password):
+                raise forms.ValidationError("Błędne hasło")
+        except User.DoesNotExist:
+            return None
+        return super(LoginForm, self).clean(*args, **kwargs)
