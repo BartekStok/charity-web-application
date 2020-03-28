@@ -44,7 +44,7 @@ class LoginForm(ModelForm):
             user = User.objects.get(email=email)
             if not user.check_password(password):
                 raise forms.ValidationError("Błędne hasło")
-        except User.DoesNotExist:
+        except Exception:
             return None
         return super(LoginForm, self).clean(*args, **kwargs)
 
@@ -110,3 +110,7 @@ class ChangeUserPassword(ModelForm):
         if password_new != password_confirm:
             raise forms.ValidationError("Hasła nie zgadzają się!")
         return cleaned_data
+
+
+class DonationStatusForm(forms.Form):
+    is_taken = forms.BooleanField()
