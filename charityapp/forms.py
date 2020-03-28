@@ -111,6 +111,3 @@ class ChangeUserPassword(ModelForm):
             raise forms.ValidationError("Hasła nie zgadzają się!")
         return cleaned_data
 
-
-class DonationStatusForm(forms.Form):
-    is_taken = forms.BooleanField()
