@@ -23,6 +23,7 @@
           <td>Organizacja</td>
           <td>Kategorie</td>
           <td>Data zabrania</td>
+          <td>Status</td>
         </tr>
         </thead>
         <tbody>
@@ -36,6 +37,13 @@
             {% endfor %}
             </td>
             <td>{{ donation.pick_up_date }} <br> {{ donation.pick_up_time }}</td>
+            <td>Zabrany:
+              <form action="" method="post" class="checkbox about-us--text">
+                {% csrf_token %}
+                {{ form.is_taken }}
+                <input name="{{ donation.id }}" type="submit" value="Zapisz">
+              </form>
+            </td>
           </tr>
         {% endfor %}
         </tbody>

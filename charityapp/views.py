@@ -7,7 +7,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, UpdateView
 
-from charityapp.forms import RegisterForm, LoginForm, UpdateUserForm, ConfirmUserPasswordForm, ChangeUserPassword
+from charityapp.forms import RegisterForm, LoginForm, UpdateUserForm, ConfirmUserPasswordForm, ChangeUserPassword, \
+    DonationStatusForm
 from charityapp.models import Donation, Institution
 
 
@@ -131,8 +132,15 @@ class UpdateUserView(View):
 
 class UserProfileView(View):
     def get(self, request):
-        donations = Donation.objects.filter(user=request.user)
-        return render(request, "forms/user-profile.html", {"donations": donations})
+        donations = Donation.objects.filter(user=request.user).order_by("-is_taken")
+        form = DonationStatusForm()
+        return render(request, "forms/user-profile.html", {"donations": donations, "form": form})
+    def post(self, request):
+        form = DonationStatusForm(request.POST)
+
+        if form.is_valid():
+            is_taken = form.cleaned_data['is_taken']
+            return redirect("user-profile")
 
 
 class LogoutView(View):
