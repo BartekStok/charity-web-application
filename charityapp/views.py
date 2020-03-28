@@ -132,7 +132,7 @@ class UpdateUserView(View):
 
 class UserProfileView(View):
     def get(self, request):
-        donations = Donation.objects.filter(user=request.user).order_by("-is_taken")
+        donations = Donation.objects.filter(user=request.user).order_by("is_taken")
         form = DonationStatusForm()
         return render(request, "forms/user-profile.html", {"donations": donations, "form": form})
     def post(self, request):

@@ -14,8 +14,8 @@
       <p>Nazwisko: {{ user.last_name }}</p>
       <p>E-mail: {{ user.email }}</p>
     </div>
-    <div class="stats--item btn--without-border">
-      <table class="btn--large">
+    <div class="stats--item">
+      <table class="btn--large" border="1">
         <caption class="">Lista przekazanych darów:</caption>
         <thead class="stats form-group--inline">
         <tr>
@@ -28,23 +28,40 @@
         </thead>
         <tbody>
         {% for donation in donations %}
-          <tr>
+          {% if donation.is_taken %}
+            <tr class="small btn--small errornote delete delete-confirmation deletelink-box">
+              <td>{{ donation.quantity }}</td>
+              <td>{{ donation.institution }}</td>
+              <td>
+                {% for category in donation.categories.all %}
+                  {{ category }} <br>
+                {% endfor %}
+              </td>
+              <td>{{ donation.pick_up_date }} <br> {{ donation.pick_up_time }}</td>
+              <td>
+                Zabrany
+              </td>
+            </tr>
+          {% else %}
+            <tr>
             <td>{{ donation.quantity }}</td>
             <td>{{ donation.institution }}</td>
             <td>
-            {% for category in donation.categories.all %}
-              {{ category }} <br>
-            {% endfor %}
+              {% for category in donation.categories.all %}
+                {{ category }} <br>
+              {% endfor %}
             </td>
             <td>{{ donation.pick_up_date }} <br> {{ donation.pick_up_time }}</td>
-            <td>Zabrany:
-              <form action="" method="post" class="checkbox about-us--text">
-                {% csrf_token %}
-                {{ form.is_taken }}
-                <input name="{{ donation.id }}" type="submit" value="Zapisz">
-              </form>
-            </td>
-          </tr>
+            <td>
+            Nie zabrany
+            <form action="" method="post" class="checkbox about-us--text">
+              {% csrf_token %}
+              <input name="checked" type="checkbox">
+              <input name="{{ donation.id }}" type="submit" value="Zmień">
+            </form>
+          {% endif %}
+        </td>
+        </tr>
         {% endfor %}
         </tbody>
       </table>
