@@ -44,7 +44,7 @@ class LoginForm(ModelForm):
             user = User.objects.get(email=email)
             if not user.check_password(password):
                 raise forms.ValidationError("Błędne hasło")
-        except User.DoesNotExist:
+        except Exception:
             return None
         return super(LoginForm, self).clean(*args, **kwargs)
 

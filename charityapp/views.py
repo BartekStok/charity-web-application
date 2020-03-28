@@ -15,7 +15,6 @@ class LandingPageView(View):
     """Landing Page for charity app"""
 
     def get(self, request):
-
         """Simple counting for index view"""
         donation = Donation.objects.all()
         donation_quantity = sum([inst.quantity for inst in donation])
@@ -71,6 +70,8 @@ class LoginView(View):
 
 
 class ConfirmUserPasswordView(View):
+    """User password confirmation before updating user data"""
+
     def get(self, request):
         form = ConfirmUserPasswordForm(user=request.user)
         return render(request, "forms/user-confirm-password.html", {"form": form})
@@ -84,6 +85,7 @@ class ConfirmUserPasswordView(View):
 
 
 class UpdateUserView(View):
+    """User data update and change password view"""
 
     def get(self, request):
         user = request.user
@@ -101,6 +103,8 @@ class UpdateUserView(View):
         form2 = ChangeUserPassword(request.POST, user=request.user)
         ctx = {"form1": form1, "form2": form2}
         user = request.user
+
+        # POST data from form nr 1
         if 'user-data' in request.POST:
             if form1.is_valid():
                 first_name = form1.cleaned_data['first_name']
@@ -112,6 +116,8 @@ class UpdateUserView(View):
                 user.save()
             else:
                 return render(request, "forms/user-settings.html", ctx)
+
+        # POST data from form nr 2
         elif 'user-password' in request.POST:
             if form2.is_valid():
                 new_password = form2.cleaned_data['password_new']
@@ -121,6 +127,12 @@ class UpdateUserView(View):
             else:
                 return render(request, "forms/user-settings.html", ctx)
         return redirect("landing-page")
+
+
+class UserProfileView(View):
+    def get(self, request):
+        donation = Donation.objects.filter(user=request.user)
+        return render(request, "forms/user-profile.html", {"donation": donation})
 
 
 class LogoutView(View):
@@ -152,4 +164,3 @@ class RegisterView(View):
             return redirect("login")
         else:
             return render(request, "forms/register.html", {"form": form})
-

@@ -2,55 +2,29 @@
 {% load static %}
 
 {% block content %}
-    <header>
 
+  <header>
     {% include "pages/header-links.html" %}
+  </header>
 
-    </header>
-
-    <section class="login-page">
-      <div class="inline-group">
-        <h2>Edytuj dane</h2>
-        <form action="" method="post">
-          {% csrf_token %}
-          {% for field in form1 %}
-            <div class="form-group">
-              {{ field }}
-            </div>
-          {% endfor %}
-          {% if form1.errors %}
-            {% for key, value in form1.errors.items %}
-              <span class="errorlist">{{ value }}</span>
-            {% endfor %}
-          {% endif %}
-
-          <div class="form-group form-group--buttons">
-            <button class="btn" type="submit" name="user-data">Zapisz dane</button>
-          </div>
-        </form>
-      </div>
-
-      <div class="inline-group">
-        <h2>Zmień hasło</h2>
-        <p class="">Uwaga! Po zmianie hasła zostaniesz poproszony o powtórne zalogowanie!</p>
-        <form action="" method="post">
-          {% csrf_token %}
-          {% for field in form2 %}
-            <div class="form-group">
-              {{ field }}
-            </div>
-          {% endfor %}
-          {% if form2.errors %}
-            {% for key, value in form2.errors.items %}
-              <span class="errorlist">{{ value }}</span>
-            {% endfor %}
-          {% endif %}
-
-          <div class="form-group form-group--buttons">
-            <button class="btn" type="submit" name="user-password">Zmień hasło</button>
-          </div>
-        </form>
-      </div>
-    </section>
+  <section class="login-page">
+    <div class="stats--item">
+      <h2>Dane użytkownika</h2>
+      <p>Imię: {{ user.first_name }}</p>
+      <p>Nazwisko: {{ user.last_name }}</p>
+      <p>E-Mail: {{ user.email }}</p>
+    </div>
+    <div class="stats--item">
+      <table>
+        <caption>Lista przekazanych darów:</caption>
+        <thead>
+          <tr>
+            <td>Ilość worków</td>
+            <td>Organizacja</td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </section>
 
 {% endblock %}
