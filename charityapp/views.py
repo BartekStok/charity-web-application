@@ -131,8 +131,8 @@ class UpdateUserView(View):
 
 class UserProfileView(View):
     def get(self, request):
-        donation = Donation.objects.filter(user=request.user)
-        return render(request, "forms/user-profile.html", {"donation": donation})
+        donations = Donation.objects.filter(user=request.user)
+        return render(request, "forms/user-profile.html", {"donations": donations})
 
 
 class LogoutView(View):
