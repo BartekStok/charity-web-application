@@ -56,8 +56,9 @@
             Nie zabrany
             <form action="" method="post" class="checkbox about-us--text">
               {% csrf_token %}
-              <input name="checked" type="checkbox">
-              <input name="{{ donation.id }}" type="submit" value="Zmień">
+              <input name="donation_id" type="hidden" value="{{ donation.id }}">
+              <input name="checkbox" type="checkbox"  required>
+              <input name="is_taken" type="submit" value="Zmień">
             </form>
           {% endif %}
         </td>

@@ -7,8 +7,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView, UpdateView
 
-from charityapp.forms import RegisterForm, LoginForm, UpdateUserForm, ConfirmUserPasswordForm, ChangeUserPassword, \
-    DonationStatusForm
+from charityapp.forms import RegisterForm, LoginForm, UpdateUserForm, ConfirmUserPasswordForm, ChangeUserPassword
 from charityapp.models import Donation, Institution
 
 
@@ -46,11 +45,13 @@ class LandingPageView(View):
 
 
 class AddDonationView(View):
+    """View managing donations"""
     def get(self, request):
         return render(request, "forms/form.html")
 
 
 class LoginView(View):
+    """View to login user"""
     def get(self, request):
         form = LoginForm()
         return render(request, "forms/login.html", {"form": form})
@@ -71,7 +72,7 @@ class LoginView(View):
 
 
 class ConfirmUserPasswordView(View):
-    """User password confirmation before updating user data"""
+    """View for user password confirmation before going to change user data page"""
 
     def get(self, request):
         form = ConfirmUserPasswordForm(user=request.user)
@@ -86,7 +87,7 @@ class ConfirmUserPasswordView(View):
 
 
 class UpdateUserView(View):
-    """User data update and change password view"""
+    """View showing forms to change user data and also change password"""
 
     def get(self, request):
         user = request.user
@@ -131,26 +132,28 @@ class UpdateUserView(View):
 
 
 class UserProfileView(View):
+    """View showing user profile, name, email etc., and donation history"""
     def get(self, request):
         donations = Donation.objects.filter(user=request.user).order_by("is_taken")
-        form = DonationStatusForm()
-        return render(request, "forms/user-profile.html", {"donations": donations, "form": form})
+        return render(request, "forms/user-profile.html", {"donations": donations})
+
     def post(self, request):
-        form = DonationStatusForm(request.POST)
-
-        if form.is_valid():
-            is_taken = form.cleaned_data['is_taken']
-            return redirect("user-profile")
-
+        donations = Donation.objects.filter(user=request.user).order_by("is_taken")
+        donation_id = request.POST.get('donation_id')
+        donation = Donation.objects.get(id=donation_id)
+        donation.is_taken = True
+        donation.save()
+        return render(request, "forms/user-profile.html", {"donations": donations})
 
 class LogoutView(View):
+    """Logout user View"""
     def get(self, request):
         logout(request)
         return redirect("landing-page")
 
 
 class RegisterView(View):
-
+    """ View to register new user"""
     def get(self, request):
         form = RegisterForm()
         return render(request, "forms/register.html", {"form": form})
