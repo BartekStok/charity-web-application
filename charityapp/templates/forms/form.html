@@ -102,9 +102,11 @@
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
 
             {% for institution in institutions %}
-            <div class="form-group form-group--checkbox" data-institution="{{ institution.id }}">
+            <div class="form-group form-group--checkbox"
+                 data-institution="{{ institution.id }}"
+                 data-categories="{{ institution.categories.values_list }}">
               <label>
-                <input type="radio" name="{{ institution.name }}" value="{{ institution.id }}" />
+                <input type="radio" name="organization" value="{{ institution.id }}" />
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title">{{ institution.type }} “{{ institution.name }}”</div>
