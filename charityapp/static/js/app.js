@@ -63,21 +63,17 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       const page = e.target.dataset.page;
       const $btn = e.target.parentElement.parentElement.parentElement.dataset.id;
-      const page1_url = "http://127.0.0.1:8000/?page=1";
-      const page2_url = "http://127.0.0.1:8000/?page=2";
+      const page_url = `http://127.0.0.1:8000/?page=${page}`;
 
+      console.log(e.target.parentElement.parentElement);
+      [e.target.parentElement.parentElement.children].forEach(elem => elem.)
       if ($btn == 1) {
+        for (var i = 0; i < page; i++) {
+
+        }
+
         if (page == 1) {
-          fetch(page1_url)
-              .then(response => response.text())
-              .then(text => {
-                const parser = new DOMParser();
-                const htmlDocument = parser.parseFromString(text, "text/html");
-                const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(3)").innerHTML;
-                e.target.parentElement.parentElement.parentElement.innerHTML = section
-              });
-        } else if (page == 2) {
-          fetch(page2_url)
+          fetch(page_url)
               .then(response => response.text())
               .then(text => {
                 const parser = new DOMParser();
