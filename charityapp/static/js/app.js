@@ -74,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(3)").innerHTML;
                 e.target.parentElement.parentElement.parentElement.innerHTML = section
               });
-
       } else if ($btn === "2") {
          fetch(page_url)
               .then(response => response.text())

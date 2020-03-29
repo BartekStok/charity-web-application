@@ -60,7 +60,6 @@ class ConfirmUserPasswordForm(ModelForm):
         self.user = kwargs.pop("user")
         super(ConfirmUserPasswordForm, self).__init__(*args, **kwargs)
 
-
     def clean(self, *args, **kwargs):
         cleaned_data = super(ConfirmUserPasswordForm, self).clean()
         password = cleaned_data.get("password")
@@ -77,14 +76,6 @@ class UpdateUserForm(ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
-
-    # def clean(self, *args, **kwargs):
-    #     cleaned_data = super(UpdateUserForm, self).clean()
-    #     password = cleaned_data.get("password")
-    #     password_confirm = cleaned_data.get("password_confirm")
-    #     if password != password_confirm:
-    #         raise forms.ValidationError("Hasła nie zgadzają się!")
-    #     return cleaned_data
 
 
 class ChangeUserPassword(ModelForm):
@@ -110,4 +101,3 @@ class ChangeUserPassword(ModelForm):
         if password_new != password_confirm:
             raise forms.ValidationError("Hasła nie zgadzają się!")
         return cleaned_data
-
