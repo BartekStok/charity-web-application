@@ -22,19 +22,19 @@ class LandingPageView(View):
 
         """Pagination for foundations"""
         foundations_list = Institution.objects.filter(type="Fundacja").order_by("id")
-        foundations_pagi = Paginator(foundations_list, 5)
+        foundations_pagi = Paginator(foundations_list, 3)
         foundations_page = request.GET.get("page")
         foundations = foundations_pagi.get_page(foundations_page)
 
         """Pagination for organizations"""
         organizations_list = Institution.objects.filter(type="Organizacja pozarządowa").order_by("id")
-        organizations_pagi = Paginator(organizations_list, 5)
+        organizations_pagi = Paginator(organizations_list, 3)
         organizations_page = request.GET.get("page")
         organizations = organizations_pagi.get_page(organizations_page)
 
         """Pagination for local charity"""
         locals_list = Institution.objects.filter(type="Zbiórka lokalna").order_by("id")
-        locals_pagi = Paginator(locals_list, 5)
+        locals_pagi = Paginator(locals_list, 3)
         local_page = request.GET.get("page")
         locals_charity = locals_pagi.get_page(local_page)
 
