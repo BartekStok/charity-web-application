@@ -60,15 +60,32 @@ document.addEventListener("DOMContentLoaded", function() {
      * TODO: callback to page change event
      */
     changePage(e) {
-      // e.preventDefault();
+      e.preventDefault();
       const page = e.target.dataset.page;
+      const page1_url = "http://127.0.0.1:8000/?page=1";
+      const page2_url = "http://127.0.0.1:8000/?page=2";
 
 
-
-
-
-
-      console.log(page);
+      if (page == 1) {
+        fetch(page1_url)
+          .then(response => response.text())
+          .then(text => {
+            const parser = new DOMParser();
+            const htmlDocument = parser.parseFromString(text, "text/html");
+            const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(3)").innerHTML;
+            e.target.parentElement.parentElement.parentElement.innerHTML = section
+          });
+      }
+      else if (page == 2) {
+        fetch(page2_url)
+          .then(response => response.text())
+          .then(text => {
+            const parser = new DOMParser();
+            const htmlDocument = parser.parseFromString(text, "text/html");
+            const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(3)").innerHTML;
+            e.target.parentElement.parentElement.parentElement.innerHTML = section
+          });
+      }
     }
   }
   // end of class help
