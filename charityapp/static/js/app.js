@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
       const page_url = `http://127.0.0.1:8000/?page=${page}`;
 
       console.log(e.target.parentElement.parentElement);
-      [e.target.parentElement.parentElement.children].forEach(elem => elem.)
+      console.log([e.target.parentElement.parentElement.children]);
       if ($btn == 1) {
         for (var i = 0; i < page; i++) {
 
