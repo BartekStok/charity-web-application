@@ -62,29 +62,34 @@ document.addEventListener("DOMContentLoaded", function() {
     changePage(e) {
       e.preventDefault();
       const page = e.target.dataset.page;
+      const $btn = e.target.parentElement.parentElement.parentElement.dataset.id;
       const page1_url = "http://127.0.0.1:8000/?page=1";
       const page2_url = "http://127.0.0.1:8000/?page=2";
 
-
-      if (page == 1) {
-        fetch(page1_url)
-          .then(response => response.text())
-          .then(text => {
-            const parser = new DOMParser();
-            const htmlDocument = parser.parseFromString(text, "text/html");
-            const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(3)").innerHTML;
-            e.target.parentElement.parentElement.parentElement.innerHTML = section
-          });
-      }
-      else if (page == 2) {
-        fetch(page2_url)
-          .then(response => response.text())
-          .then(text => {
-            const parser = new DOMParser();
-            const htmlDocument = parser.parseFromString(text, "text/html");
-            const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(3)").innerHTML;
-            e.target.parentElement.parentElement.parentElement.innerHTML = section
-          });
+      if ($btn == 1) {
+        if (page == 1) {
+          fetch(page1_url)
+              .then(response => response.text())
+              .then(text => {
+                const parser = new DOMParser();
+                const htmlDocument = parser.parseFromString(text, "text/html");
+                const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(3)").innerHTML;
+                e.target.parentElement.parentElement.parentElement.innerHTML = section
+              });
+        } else if (page == 2) {
+          fetch(page2_url)
+              .then(response => response.text())
+              .then(text => {
+                const parser = new DOMParser();
+                const htmlDocument = parser.parseFromString(text, "text/html");
+                const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(3)").innerHTML;
+                e.target.parentElement.parentElement.parentElement.innerHTML = section
+              });
+        }
+      } else if ($btn == 2) {
+        console.log($btn);
+      } else if ($btn == 3) {
+        console.log($btn);
       }
     }
   }
