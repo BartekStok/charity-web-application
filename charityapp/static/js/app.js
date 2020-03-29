@@ -65,15 +65,8 @@ document.addEventListener("DOMContentLoaded", function() {
       const $btn = e.target.parentElement.parentElement.parentElement.dataset.id;
       const page_url = `http://127.0.0.1:8000/?page=${page}`;
 
-      console.log(e.target.parentElement.parentElement);
-      console.log([e.target.parentElement.parentElement.children]);
-      if ($btn == 1) {
-        for (var i = 0; i < page; i++) {
-
-        }
-
-        if (page == 1) {
-          fetch(page_url)
+      if ($btn === "1") {
+        fetch(page_url)
               .then(response => response.text())
               .then(text => {
                 const parser = new DOMParser();
@@ -81,11 +74,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(3)").innerHTML;
                 e.target.parentElement.parentElement.parentElement.innerHTML = section
               });
-        }
-      } else if ($btn == 2) {
-        console.log($btn);
-      } else if ($btn == 3) {
-        console.log($btn);
+
+      } else if ($btn === "2") {
+         fetch(page_url)
+              .then(response => response.text())
+              .then(text => {
+                const parser = new DOMParser();
+                const htmlDocument = parser.parseFromString(text, "text/html");
+                const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(4)").innerHTML;
+                e.target.parentElement.parentElement.parentElement.innerHTML = section
+              });
+      } else if ($btn === "3") {
+        fetch(page_url)
+              .then(response => response.text())
+              .then(text => {
+                const parser = new DOMParser();
+                const htmlDocument = parser.parseFromString(text, "text/html");
+                const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(5)").innerHTML;
+                e.target.parentElement.parentElement.parentElement.innerHTML = section
+              });
       }
     }
   }
