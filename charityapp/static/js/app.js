@@ -293,8 +293,21 @@ document.addEventListener("DOMContentLoaded", function() {
       // TODO: get data from inputs and show them in summary
 
       var $formSelector = document.querySelector(".form--steps-container form");
-      console.log([...$formSelector]);
-      $formSelector.hasAttribute("bags")
+      var $summarySelector = $formSelector.querySelector("div [data-step='5']");
+
+      // Adding number of bags to summary
+      var $summaryBags = $summarySelector.querySelector("div div ul li:nth-child(1)").children[1];
+      var $countBags = $formSelector.querySelector("input[name='bags']");
+      var $summaryBagsText = `${$countBags.value} worki zawierające: ${selected_categories}`;
+      $summaryBags.innerHTML = $summaryBagsText
+
+      // console.log([...$formSelector]);
+      // $formSelector.hasAttribute("bags");
+      // console.log($formSelector.querySelector("input[name='bags']"));
+      // console.log($summarySelector);
+      // console.log($summaryBags.innerHTML);
+      // $summaryBags = $formSelector[8].value
+
 
     }
 
