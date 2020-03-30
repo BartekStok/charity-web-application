@@ -102,7 +102,7 @@
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
 
             {% for institution in institutions %}
-            <div class="form-group form-group--checkbox"
+            <div class="form-group form-group--checkbox hidden-true"
                  data-institution="{{ institution.id }}"
                  data-categories="{% for cat in institution.categories.all %}{{ cat.name }} {% endfor %}">
               <label>
