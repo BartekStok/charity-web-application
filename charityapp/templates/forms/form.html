@@ -104,7 +104,7 @@
             {% for institution in institutions %}
             <div class="form-group form-group--checkbox"
                  data-institution="{{ institution.id }}"
-                 data-categories="[{% for inst in institution.categories.all %}{{ inst.name }}, {% endfor %}]">
+                 data-categories="{% for cat in institution.categories.all %}{{ cat.name }} {% endfor %}">
               <label>
                 <input type="radio" name="organization" value="{{ institution.id }}" />
                 <span class="checkbox radio"></span>

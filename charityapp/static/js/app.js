@@ -255,15 +255,20 @@ document.addEventListener("DOMContentLoaded", function() {
       // TODO: Validation
 
       var organizations_id = document.querySelectorAll("div[data-step='3'] > [data-institution]");
-      console.log(organizations_id[0].dataset.categories);
-      // var org_json = JSON.stringify(organizations_id[0].dataset)
-      // console.log(org_json);
-      // var my_arr = [];
-      // for (var org = 0; org < organizations_id.length; org++) {
-        // org.dataset['categories']
-        // my_arr.push(organizations_id[org].dataset['categories'])
-      // }
-      // console.log(my_arr);
+      var $selectedCategories = document.querySelectorAll("div[data-step='1'] div.form-group.form-group--checkbox");
+      var selected_array = [];
+      for (var i = 0; i < [...$selectedCategories].length; i++) {
+        if ([...$selectedCategories][i].firstElementChild.firstElementChild.checked) {
+          selected_array.push([...$selectedCategories][i].firstElementChild.firstElementChild.getAttribute("name"))
+        }
+      }
+
+      // console.log(selected_array);
+      var categories_array = [];
+      for (var i = 0; i < [...organizations_id].length; i++) {
+        categories_array.push([...organizations_id][i].dataset.categories.trim().split(' '))
+      }
+      console.log(categories_array);
 
       this.slides.forEach(slide => {
         slide.classList.remove("active");
