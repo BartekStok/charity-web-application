@@ -257,18 +257,28 @@ document.addEventListener("DOMContentLoaded", function() {
       var organizations_id = document.querySelectorAll("div[data-step='3'] > [data-institution]");
       var $selectedCategories = document.querySelectorAll("div[data-step='1'] div.form-group.form-group--checkbox");
       var selected_array = [];
+
+      // Creating array of selected categories
       for (var i = 0; i < [...$selectedCategories].length; i++) {
         if ([...$selectedCategories][i].firstElementChild.firstElementChild.checked) {
           selected_array.push([...$selectedCategories][i].firstElementChild.firstElementChild.getAttribute("name"))
         }
       }
 
-      // console.log(selected_array);
-      var categories_array = [];
+      // Changing visibility of institution depending from selected categories
       for (var i = 0; i < [...organizations_id].length; i++) {
-        categories_array.push([...organizations_id][i].dataset.categories.trim().split(' '))
+        var bool_array = [];
+        [...organizations_id][i].dataset.categories.trim().split(' ').forEach(
+            function(val, key){
+              var cat_nmb = [...organizations_id][i].dataset.categories.trim().split(' ').length;
+              if (selected_array.includes(val)) bool_array.push(true);
+              if (bool_array.length === cat_nmb) {
+                [...organizations_id][i].classList.remove("hidden-true")
+              }
+              else {[...organizations_id][i].classList.add("hidden-true")};
+            }
+        )
       }
-      console.log(categories_array);
 
       this.slides.forEach(slide => {
         slide.classList.remove("active");
