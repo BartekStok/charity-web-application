@@ -298,16 +298,30 @@ document.addEventListener("DOMContentLoaded", function() {
       // Adding number of bags to summary
       var $summaryBags = $summarySelector.querySelector("div div ul li:nth-child(1)").children[1];
       var $countBags = $formSelector.querySelector("input[name='bags']");
-      var $summaryBagsText = `${$countBags.value} worki zawierające: ${selected_categories}`;
-      $summaryBags.innerHTML = $summaryBagsText
+      var $summaryBagsText = "";
+      if ($countBags.value === "1") {
+        $summaryBagsText = `${$countBags.value} worek zawierający: ${selected_categories.join(", ")}`;
+      }
+      else if (parseInt($countBags.value) > 1 && parseInt($countBags.value) <=4) {
+        $summaryBagsText = `${$countBags.value} worki zawierające: ${selected_categories.join(", ")}`;
+      }
+      else if (parseInt($countBags.value) > 4) {
+        $summaryBagsText = `${$countBags.value} worków zawierających: ${selected_categories.join(", ")}`;
+      }
+       $summaryBags.innerHTML = $summaryBagsText;
 
-      // console.log([...$formSelector]);
-      // $formSelector.hasAttribute("bags");
-      // console.log($formSelector.querySelector("input[name='bags']"));
-      // console.log($summarySelector);
-      // console.log($summaryBags.innerHTML);
-      // $summaryBags = $formSelector[8].value
+      // Adding name of institution to summary
+      var $allInstitution = $formSelector.querySelectorAll("input[name='organization']");
+      var $summaryInstitution = $summarySelector.querySelector("div div ul li:nth-child(2)").children[1];
+      var $checkedInstitution = null;
+      $allInstitution.forEach(function (value) {
+          if (value.checked) {$checkedInstitution = value}
+      });
+      var $institutionText = $checkedInstitution.parentElement.querySelector("div.title").innerHTML;
+      $summaryInstitution.innerHTML = $institutionText
 
+      // Adding pick-up address
+      // TODO: next day
 
     }
 
