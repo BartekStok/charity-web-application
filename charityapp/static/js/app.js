@@ -254,6 +254,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // TODO: Validation
 
+      var organizations_id = document.querySelectorAll("div[data-step='3'] > [data-institution]");
+      console.log(organizations_id[0].dataset.categories);
+      // var org_json = JSON.stringify(organizations_id[0].dataset)
+      // console.log(org_json);
+      // var my_arr = [];
+      // for (var org = 0; org < organizations_id.length; org++) {
+        // org.dataset['categories']
+        // my_arr.push(organizations_id[org].dataset['categories'])
+      // }
+      // console.log(my_arr);
+
       this.slides.forEach(slide => {
         slide.classList.remove("active");
 
