@@ -292,9 +292,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // TODO: get data from inputs and show them in summary
 
-      var $inputSelector = document.querySelectorAll("html body section.form--steps div.form--steps-container form");
-      console.log(this.$form.children[1].children);
-
+      var $formSelector = document.querySelector(".form--steps-container form");
+      console.log([...$formSelector]);
+      $formSelector.hasAttribute("bags")
 
     }
 
