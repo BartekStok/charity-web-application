@@ -8,7 +8,7 @@
           <li><a href="{% url 'user-profile' %}">Profil</a></li>
           <li><a href="{% url 'confirm-password' %}">Ustawienia</a></li>
           {% if user.is_superuser %}
-          <li><a href="{% url 'admin:index' %}">Panel administracyjny</a></li>
+          <li><a href="{% url 'admin:index' %}">Admin panel</a></li>
           {% endif %}
           <li><a href="{% url 'logout' %}">Wyloguj</a></li>
         </ul>
