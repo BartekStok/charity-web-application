@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     /**
-     * TODO: callback to page change event
+     * TODO: callback to page change event  --<< done(sort of)
      */
     changePage(e) {
       e.preventDefault();
@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function() {
     updateForm() {
       this.$step.innerText = this.currentStep;
 
-      // TODO: Validation
+      // TODO: Validation --<< done
 
       var $organizationId = document.querySelectorAll("div[data-step='3'] > [data-institution]");
       var $selectedCategories = document.querySelectorAll("div[data-step='1'] div.form-group.form-group--checkbox");
@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
-      // TODO: get data from inputs and show them in summary
+      // TODO: get data from inputs and show them in summary --<< done
 
       var $formSelector = document.querySelector(".form--steps-container form");
       var $summarySelector = $formSelector.querySelector("div [data-step='5']");
@@ -313,15 +313,26 @@ document.addEventListener("DOMContentLoaded", function() {
       // Adding name of institution to summary
       var $allInstitution = $formSelector.querySelectorAll("input[name='organization']");
       var $summaryInstitution = $summarySelector.querySelector("div div ul li:nth-child(2)").children[1];
-      var $checkedInstitution = null;
+      var $checkedInstitution = $allInstitution[0];
       $allInstitution.forEach(function (value) {
           if (value.checked) {$checkedInstitution = value}
       });
       var $institutionText = $checkedInstitution.parentElement.querySelector("div.title").innerHTML;
-      $summaryInstitution.innerHTML = $institutionText
+      $summaryInstitution.innerHTML = `Dla: ${$institutionText}`;
 
-      // Adding pick-up address
-      // TODO: next day
+      // Adding pick-up address and date, time, more info
+      var $summaryAddress = $summarySelector.querySelector("div.summary div:nth-child(2) ul");
+      var $summaryTermin = $summarySelector.querySelector("div.summary div:nth-child(2) div:nth-child(2) ul");
+
+      $summaryAddress.children[0].innerHTML = $formSelector.address.value;
+      $summaryAddress.children[1].innerHTML = $formSelector.city.value;
+      $summaryAddress.children[2].innerHTML = $formSelector.postcode.value;
+      $summaryAddress.children[3].innerHTML = $formSelector.phone.value;
+      $summaryTermin.children[0].innerHTML = $formSelector.data.value;
+      $summaryTermin.children[1].innerHTML = $formSelector.time.value;
+      $summaryTermin.children[2].innerHTML = $formSelector.more_info.value;
+
+      console.log(this.$form.);
 
     }
 
@@ -334,6 +345,11 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       this.currentStep++;
       this.updateForm();
+
+      console.log("to jest message");
+      console.log(this.$form.address);
+
+
     }
   }
   const form = document.querySelector(".form--steps");
