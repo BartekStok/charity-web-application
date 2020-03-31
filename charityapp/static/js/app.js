@@ -332,7 +332,6 @@ document.addEventListener("DOMContentLoaded", function() {
       $summaryTermin.children[1].innerHTML = $formSelector.time.value;
       $summaryTermin.children[2].innerHTML = $formSelector.more_info.value;
 
-      console.log(this.$form.children[1].children[1].bags.value);
     }
 
     /**
