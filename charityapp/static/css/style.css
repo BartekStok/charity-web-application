@@ -377,6 +377,13 @@ template {
 }
 
 /**
+* Hide element my css :)
+ */
+.hidden-true {
+  display: none;
+}
+
+/**
  * COLORS
  */
 /**

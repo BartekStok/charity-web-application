@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     /**
-     * TODO: callback to page change event
+     * TODO: callback to page change event  --<< done(sort of)
      */
     changePage(e) {
       e.preventDefault();
@@ -74,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 const section = htmlDocument.documentElement.querySelector("div.help--slides:nth-child(3)").innerHTML;
                 e.target.parentElement.parentElement.parentElement.innerHTML = section
               });
-
       } else if ($btn === "2") {
          fetch(page_url)
               .then(response => response.text())
@@ -253,7 +252,32 @@ document.addEventListener("DOMContentLoaded", function() {
     updateForm() {
       this.$step.innerText = this.currentStep;
 
-      // TODO: Validation
+      // TODO: Validation --<< done
+
+      var $organizationId = document.querySelectorAll("div[data-step='3'] > [data-institution]");
+      var $selectedCategories = document.querySelectorAll("div[data-step='1'] div.form-group.form-group--checkbox");
+      var selected_categories = [];
+
+      // Creating array of selected categories
+      for (var i = 0; i < [...$selectedCategories].length; i++) {
+        if ([...$selectedCategories][i].firstElementChild.firstElementChild.checked) {
+          selected_categories.push([...$selectedCategories][i].firstElementChild.firstElementChild.getAttribute("name"))
+        }
+      }
+
+      // Changing visibility of institution, depends from selected categories
+      for (var i = 0; i < [...$organizationId].length; i++) {
+        var categories_count = [];
+        [...$organizationId][i].dataset.categories.trim().split(' ').forEach(
+            function(category, key){
+              if (selected_categories.includes(category)) categories_count.push(true);
+              if (categories_count.length >= selected_categories.length) {
+                [...$organizationId][i].classList.remove("hidden-true")
+              }
+              else {[...$organizationId][i].classList.add("hidden-true")};
+            }
+        )
+      }
 
       this.slides.forEach(slide => {
         slide.classList.remove("active");
@@ -266,7 +290,48 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
-      // TODO: get data from inputs and show them in summary
+      // TODO: get data from inputs and show them in summary --<< done
+
+      var $formSelector = document.querySelector(".form--steps-container form");
+      var $summarySelector = $formSelector.querySelector("div [data-step='5']");
+
+      // Adding number of bags to summary
+      var $summaryBags = $summarySelector.querySelector("div div ul li:nth-child(1)").children[1];
+      var $countBags = $formSelector.querySelector("input[name='bags']");
+      var $summaryBagsText = "";
+      if ($countBags.value === "1") {
+        $summaryBagsText = `${$countBags.value} worek zawierający: ${selected_categories.join(", ")}`;
+      }
+      else if (parseInt($countBags.value) > 1 && parseInt($countBags.value) <=4) {
+        $summaryBagsText = `${$countBags.value} worki zawierające: ${selected_categories.join(", ")}`;
+      }
+      else if (parseInt($countBags.value) > 4) {
+        $summaryBagsText = `${$countBags.value} worków zawierających: ${selected_categories.join(", ")}`;
+      }
+       $summaryBags.innerHTML = $summaryBagsText;
+
+      // Adding name of institution to summary
+      var $allInstitution = $formSelector.querySelectorAll("input[name='organization']");
+      var $summaryInstitution = $summarySelector.querySelector("div div ul li:nth-child(2)").children[1];
+      var $checkedInstitution = $allInstitution[0];
+      $allInstitution.forEach(function (value) {
+          if (value.checked) {$checkedInstitution = value}
+      });
+      var $institutionText = $checkedInstitution.parentElement.querySelector("div.title").innerHTML;
+      $summaryInstitution.innerHTML = `Dla: ${$institutionText} z miasta ${$formSelector.city.value}`;
+
+      // Adding pick-up address and date, time, more info
+      var $summaryAddress = $summarySelector.querySelector("div.summary div:nth-child(2) ul");
+      var $summaryTermin = $summarySelector.querySelector("div.summary div:nth-child(2) div:nth-child(2) ul");
+
+      $summaryAddress.children[0].innerHTML = $formSelector.address.value;
+      $summaryAddress.children[1].innerHTML = $formSelector.city.value;
+      $summaryAddress.children[2].innerHTML = $formSelector.postcode.value;
+      $summaryAddress.children[3].innerHTML = $formSelector.phone.value;
+      $summaryTermin.children[0].innerHTML = $formSelector.data.value;
+      $summaryTermin.children[1].innerHTML = $formSelector.time.value;
+      $summaryTermin.children[2].innerHTML = $formSelector.more_info.value;
+
     }
 
     /**
@@ -276,8 +341,32 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     submit(e) {
       e.preventDefault();
-      this.currentStep++;
-      this.updateForm();
+      var $formValues = this.$form.children[1].children[1];
+
+      function emptyValidation(value) {
+        if (value === "") {
+          alert("Wszystkie pola muszą byc wypełnione");
+          return false
+        }
+        else {return true}
+      }
+
+      function validate() {
+        if (
+        emptyValidation($formValues.address.value) &&
+        emptyValidation($formValues.city.value) &&
+        emptyValidation($formValues.postcode.value) &&
+        emptyValidation($formValues.phone.value) &&
+        emptyValidation($formValues.data.value) &&
+        emptyValidation($formValues.time.value)
+      ) { return true}
+      }
+
+      if (validate()) {
+        this.currentStep++;
+        this.updateForm();
+      }
+
     }
   }
   const form = document.querySelector(".form--steps");

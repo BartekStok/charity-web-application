@@ -25,6 +25,14 @@ class Institution(models.Model):
         return self.name
 
 
+def categories(obj):
+    return ", ".join([str(t) for t in obj.categories.all()])
+
+
+class InstitutionAdmin(ModelAdmin):
+    list_display = ('name', categories, 'type')
+
+
 class Donation(models.Model):
     quantity = models.IntegerField()
     categories = models.ManyToManyField(Category)
@@ -50,6 +58,7 @@ def quantity(obj):
         return f"{obj.quantity} worki"
     elif obj.quantity >= 5:
         return f"{obj.quantity} worków"
+
+
 class DonationAdmin(ModelAdmin):
     list_display = ('institution', 'user', quantity, 'city')
-
