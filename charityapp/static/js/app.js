@@ -332,20 +332,20 @@ document.addEventListener("DOMContentLoaded", function() {
       $summaryTermin.children[1].innerHTML = $formSelector.time.value;
       $summaryTermin.children[2].innerHTML = $formSelector.more_info.value;
 
+      console.log(this.$form.children[1].children[1].bags.value);
     }
 
     /**
      * Submit form
      *
-     * TODO: validation, send data to server
+     * TODO: validation, send data to server --<< done
      */
     submit(e) {
-      e.preventDefault();
       var $formValues = this.$form.children[1].children[1];
 
       function emptyValidation(value) {
         if (value === "") {
-          alert("Wszystkie pola muszą byc wypełnione");
+          alert("Wszystkie pola muszą być wypełnione");
           return false
         }
         else {return true}
@@ -362,13 +362,18 @@ document.addEventListener("DOMContentLoaded", function() {
       ) { return true}
       }
 
-      if (validate()) {
-        this.currentStep++;
-        this.updateForm();
+      if (this.currentStep === 5) {
+        if (validate()) {
+          this.updateForm();
+        } else {
+          e.preventDefault();
+        }
+      } else {
+        e.preventDefault();
       }
-
+      }
     }
-  }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);

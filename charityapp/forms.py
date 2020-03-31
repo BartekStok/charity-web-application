@@ -101,3 +101,4 @@ class ChangeUserPassword(ModelForm):
         if password_new != password_confirm:
             raise forms.ValidationError("Hasła nie zgadzają się!")
         return cleaned_data
+
