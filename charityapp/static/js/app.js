@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function() {
           if (value.checked) {$checkedInstitution = value}
       });
       var $institutionText = $checkedInstitution.parentElement.querySelector("div.title").innerHTML;
-      $summaryInstitution.innerHTML = `Dla: ${$institutionText}`;
+      $summaryInstitution.innerHTML = `Dla: ${$institutionText} z miasta ${$formSelector.city.value}`;
 
       // Adding pick-up address and date, time, more info
       var $summaryAddress = $summarySelector.querySelector("div.summary div:nth-child(2) ul");
@@ -332,8 +332,6 @@ document.addEventListener("DOMContentLoaded", function() {
       $summaryTermin.children[1].innerHTML = $formSelector.time.value;
       $summaryTermin.children[2].innerHTML = $formSelector.more_info.value;
 
-      console.log(this.$form.);
-
     }
 
     /**
@@ -343,12 +341,31 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     submit(e) {
       e.preventDefault();
-      this.currentStep++;
-      this.updateForm();
+      var $formValues = this.$form.children[1].children[1];
 
-      console.log("to jest message");
-      console.log(this.$form.address);
+      function emptyValidation(value) {
+        if (value === "") {
+          alert("Wszystkie pola muszą byc wypełnione");
+          return false
+        }
+        else {return true}
+      }
 
+      function validate() {
+        if (
+        emptyValidation($formValues.address.value) &&
+        emptyValidation($formValues.city.value) &&
+        emptyValidation($formValues.postcode.value) &&
+        emptyValidation($formValues.phone.value) &&
+        emptyValidation($formValues.data.value) &&
+        emptyValidation($formValues.time.value)
+      ) { return true}
+      }
+
+      if (validate()) {
+        this.currentStep++;
+        this.updateForm();
+      }
 
     }
   }

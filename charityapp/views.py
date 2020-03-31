@@ -61,6 +61,9 @@ class AddDonationView(LoginRequiredMixin, View):
             "institutions": institutions
         }
         return render(request, "forms/form.html", ctx)
+    def post(self, request):
+        quantity = request.POST.get("bags")
+        categories = request.POST.get("bags")
 
 
 class DonationConfirmationView(View):
