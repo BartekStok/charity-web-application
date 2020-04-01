@@ -61,18 +61,49 @@ class AddDonationView(LoginRequiredMixin, View):
             "institutions": institutions
         }
         return render(request, "forms/form.html", ctx)
+
     def post(self, request):
         quantity = request.POST.get("bags")
-        categories = request.POST.get("bags")
-
+        categories = request.POST.getlist("category")
+        institution = request.POST.get("organization")
+        address = request.POST.get("address")
+        phone_number = request.POST.get("phone")
+        city = request.POST.get("city")
+        zip_code = request.POST.get("postcode")
+        pick_up_date = request.POST.get("data")
+        pick_up_time = request.POST.get("time")
+        pick_up_comment = request.POST.get("more_info")
+        user = request.user
+        institution_instance = Institution.objects.get(id=institution)
+        donation = Donation.objects.create(
+            quantity=quantity,
+            institution=institution_instance,
+            address=address,
+            phone_number=phone_number,
+            city=city,
+            zip_code=zip_code,
+            pick_up_date=pick_up_date,
+            pick_up_time=pick_up_time,
+            pick_up_comment=pick_up_comment,
+            user=user
+        )
+        for category_id in categories:
+            donation.categories.add(Category.objects.get(id=category_id))
+        if donation:
+            return render(request, "forms/form-confirmation.html")
+        else:
+            return redirect("add-donation")
 
 class DonationConfirmationView(View):
     """View showing confirmation of adding a donation"""
+
     def get(self, request):
         return render(request, "forms/form-confirmation.html")
 
+
 class LoginView(View):
     """View to login user"""
+
     def get(self, request):
         form = LoginForm()
         return render(request, "forms/login.html", {"form": form})
@@ -93,7 +124,7 @@ class LoginView(View):
 
 
 class ConfirmUserPasswordView(View):
-    """View for user password confirmation before going to change user data page"""
+    """View for user password confirmation before going to change user data"""
 
     def get(self, request):
         form = ConfirmUserPasswordForm(user=request.user)
@@ -154,6 +185,7 @@ class UpdateUserView(View):
 
 class UserProfileView(View):
     """View showing user profile, name, email etc., and donation history"""
+
     def get(self, request):
         donations = Donation.objects.filter(user=request.user).order_by("is_taken")
         return render(request, "forms/user-profile.html", {"donations": donations})
@@ -166,8 +198,10 @@ class UserProfileView(View):
         donation.save()
         return render(request, "forms/user-profile.html", {"donations": donations})
 
+
 class LogoutView(View):
     """Logout user View"""
+
     def get(self, request):
         logout(request)
         return redirect("landing-page")
@@ -175,6 +209,7 @@ class LogoutView(View):
 
 class RegisterView(View):
     """ View to register new user"""
+
     def get(self, request):
         form = RegisterForm()
         return render(request, "forms/register.html", {"form": form})

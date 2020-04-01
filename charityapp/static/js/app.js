@@ -255,28 +255,31 @@ document.addEventListener("DOMContentLoaded", function() {
       // TODO: Validation --<< done
 
       var $organizationId = document.querySelectorAll("div[data-step='3'] > [data-institution]");
-      var $selectedCategories = document.querySelectorAll("div[data-step='1'] div.form-group.form-group--checkbox");
-      var selected_categories = [];
+      var selected_categories_name = [];
+      var selected_categories_id = [];
 
-      // Creating array of selected categories
-      for (var i = 0; i < [...$selectedCategories].length; i++) {
-        if ([...$selectedCategories][i].firstElementChild.firstElementChild.checked) {
-          selected_categories.push([...$selectedCategories][i].firstElementChild.firstElementChild.getAttribute("name"))
+      // Create an array of selected categories
+      [...document.forms['form'].category].forEach(function (el) {
+        if (el.checked) {
+          selected_categories_id.push(parseInt(el.value));
+          selected_categories_name.push(el.dataset.category_name)
         }
-      }
+      });
 
-      // Changing visibility of institution, depends from selected categories
-      for (var i = 0; i < [...$organizationId].length; i++) {
-        var categories_count = [];
-        [...$organizationId][i].dataset.categories.trim().split(' ').forEach(
-            function(category, key){
-              if (selected_categories.includes(category)) categories_count.push(true);
-              if (categories_count.length >= selected_categories.length) {
-                [...$organizationId][i].classList.remove("hidden-true")
-              }
-              else {[...$organizationId][i].classList.add("hidden-true")};
+      // Changing visibility of organizations, depends from selected categories
+      for (let organization of $organizationId) {
+          var org_categories = organization.dataset.categories_id.trim().split(' ').map(el => parseInt(el));
+          var match_categories = [];
+          selected_categories_id.forEach(function (category) {
+            if (org_categories.includes(category)) {
+              match_categories.push(category);
             }
-        )
+            if (match_categories.length >= selected_categories_id.length) {
+              organization.classList.remove("hidden-true")
+            } else {
+              organization.classList.add("hidden-true")
+            }
+          })
       }
 
       this.slides.forEach(slide => {
@@ -298,15 +301,17 @@ document.addEventListener("DOMContentLoaded", function() {
       // Adding number of bags to summary
       var $summaryBags = $summarySelector.querySelector("div div ul li:nth-child(1)").children[1];
       var $countBags = $formSelector.querySelector("input[name='bags']");
+      // var $categoriesList = $formSelector;
+      // console.log($categoriesList);
       var $summaryBagsText = "";
       if ($countBags.value === "1") {
-        $summaryBagsText = `${$countBags.value} worek zawierający: ${selected_categories.join(", ")}`;
+        $summaryBagsText = `${$countBags.value} worek zawierający: ${selected_categories_name.join(", ")}`;
       }
       else if (parseInt($countBags.value) > 1 && parseInt($countBags.value) <=4) {
-        $summaryBagsText = `${$countBags.value} worki zawierające: ${selected_categories.join(", ")}`;
+        $summaryBagsText = `${$countBags.value} worki zawierające: ${selected_categories_name.join(", ")}`;
       }
       else if (parseInt($countBags.value) > 4) {
-        $summaryBagsText = `${$countBags.value} worków zawierających: ${selected_categories.join(", ")}`;
+        $summaryBagsText = `${$countBags.value} worków zawierających: ${selected_categories_name.join(", ")}`;
       }
        $summaryBags.innerHTML = $summaryBagsText;
 
@@ -337,15 +342,14 @@ document.addEventListener("DOMContentLoaded", function() {
     /**
      * Submit form
      *
-     * TODO: validation, send data to server
+     * TODO: validation, send data to server --<< done
      */
     submit(e) {
-      e.preventDefault();
       var $formValues = this.$form.children[1].children[1];
 
       function emptyValidation(value) {
         if (value === "") {
-          alert("Wszystkie pola muszą byc wypełnione");
+          alert("Wszystkie pola muszą być wypełnione");
           return false
         }
         else {return true}
@@ -362,13 +366,18 @@ document.addEventListener("DOMContentLoaded", function() {
       ) { return true}
       }
 
-      if (validate()) {
-        this.currentStep++;
-        this.updateForm();
+      if (this.currentStep === 5) {
+        if (validate()) {
+          this.updateForm();
+        } else {
+          e.preventDefault();
+        }
+      } else {
+        e.preventDefault();
       }
-
+      }
     }
-  }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
