@@ -40,3 +40,4 @@ local_settings.py
 db.sqlite3
 media
 secret_key.txt
+email_password.txt
