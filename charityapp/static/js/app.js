@@ -265,6 +265,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       }
 
+      console.log(selected_categories);
+
       // Changing visibility of institution, depends from selected categories
       for (var i = 0; i < [...$organizationId].length; i++) {
         var categories_count = [];
