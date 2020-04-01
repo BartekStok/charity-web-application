@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.core.mail import send_mail, EmailMessage
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -231,3 +232,25 @@ class RegisterView(View):
             return redirect("login")
         else:
             return render(request, "forms/register.html", {"form": form})
+
+
+class ContactFormView(View):
+    def post(self, request):
+        name = request.POST.get('name')
+        surname = request.POST.get('surname')
+        text = request.POST.get('message')
+        admin_list = User.objects.filter(is_superuser=True)
+        email_list = []
+        for admin in admin_list:
+            email_list.append(admin.email)
+        if request.user:
+            message = text + f' -->> od użytkownika {request.user.email}'
+        else:
+            message = text
+        email = EmailMessage(
+            f'Charity App mail from {name} {surname}',
+            message,
+            to=email_list
+        )
+        email.send()
+        return render(request, "forms/message-confirmation.html")
