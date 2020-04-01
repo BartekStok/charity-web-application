@@ -349,7 +349,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
       function emptyValidation(value) {
         if (value === "") {
-          alert("Wszystkie pola muszą być wypełnione");
           return false
         }
         else {return true}
@@ -363,7 +362,12 @@ document.addEventListener("DOMContentLoaded", function() {
         emptyValidation($formValues.phone.value) &&
         emptyValidation($formValues.data.value) &&
         emptyValidation($formValues.time.value)
-      ) { return true}
+      ) {
+          return true
+        } else {
+          alert("Wszystkie pola muszą być wypełnione");
+          return false
+        }
       }
 
       if (this.currentStep === 5) {
