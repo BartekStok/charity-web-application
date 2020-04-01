@@ -64,6 +64,7 @@ class AddDonationView(LoginRequiredMixin, View):
 
     def post(self, request):
         quantity = request.POST.get("bags")
+        categories = request.POST.getlist("category")
         institution = request.POST.get("organization")
         address = request.POST.get("address")
         phone_number = request.POST.get("phone")
@@ -73,7 +74,7 @@ class AddDonationView(LoginRequiredMixin, View):
         pick_up_time = request.POST.get("time")
         pick_up_comment = request.POST.get("more_info")
         user = request.user
-        institution_instance = Institution.objects.get(name=institution)
+        institution_instance = Institution.objects.get(id=institution)
         donation = Donation.objects.create(
             quantity=quantity,
             institution=institution_instance,
@@ -86,6 +87,8 @@ class AddDonationView(LoginRequiredMixin, View):
             pick_up_comment=pick_up_comment,
             user=user
         )
+        for category_id in categories:
+            donation.categories.add(Category.objects.get(id=category_id))
         if donation:
             return render(request, "forms/form-confirmation.html")
         else:
@@ -121,7 +124,7 @@ class LoginView(View):
 
 
 class ConfirmUserPasswordView(View):
-    """View for user password confirmation before going to change user data page"""
+    """View for user password confirmation before going to change user data"""
 
     def get(self, request):
         form = ConfirmUserPasswordForm(user=request.user)
