@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       const page = e.target.dataset.page;
       const $btn = e.target.parentElement.parentElement.parentElement.dataset.id;
-      const page_url = `http://127.0.0.1:8000/?page=${page}`;
+      const page_url = `/?page=${page}`;
 
       if ($btn === "1") {
         fetch(page_url)
