@@ -23,13 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-# with open('charity/secret_key.txt') as f:
-#     SECRET_KEY = f.read().strip()
+with open('charity/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+# SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '*.herokuapp.com']
 
@@ -37,7 +37,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '*.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
+    # 'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -82,20 +82,10 @@ WSGI_APPLICATION = 'charity.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# try:
-#     from charity.local_settings import DATABASES
-# except ModuleNotFoundError:
-#     print("Error by Database configuration in local settings!")
-
-DATABASES = {
-    'default': {
-        'HOST': '127.0.0.1',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'charity-donation',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
-    }
-}
+try:
+    from charity.local_settings import DATABASES
+except ModuleNotFoundError:
+    print("Error by Database configuration in local settings!")
 
 
 # Password validation
@@ -140,11 +130,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'charityapp/static'),
 )
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-django_heroku.settings(locals())
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#
+# django_heroku.settings(locals())
 
 # Email configuration for messages to admin
 
@@ -153,7 +143,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'charityapp.email@gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-# with open('charity/email_password.txt') as f:
-#     EMAIL_HOST_PASSWORD = f.read().strip()
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+with open('charity/email_password.txt') as f:
+    EMAIL_HOST_PASSWORD = f.read().strip()
 
