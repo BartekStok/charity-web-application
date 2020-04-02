@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -21,8 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-with open('charity/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
+# with open('charity/secret_key.txt') as f:
+#     SECRET_KEY = f.read().strip()
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -33,7 +37,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '*.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
-    # 'whitenoise.runserver_nostatic',
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,10 +82,20 @@ WSGI_APPLICATION = 'charity.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-try:
-    from charity.local_settings import DATABASES
-except ModuleNotFoundError:
-    print("Error by Database configuration in local settings!")
+# try:
+#     from charity.local_settings import DATABASES
+# except ModuleNotFoundError:
+#     print("Error by Database configuration in local settings!")
+
+DATABASES = {
+    'default': {
+        'HOST': '127.0.0.1',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'charity-donation',
+        'USER': 'postgres',
+        'PASSWORD': 'coderslab',
+    }
+}
 
 
 # Password validation
@@ -126,9 +140,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'charityapp/static'),
 )
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+django_heroku.settings(locals())
 
 # Email configuration for messages to admin
 
