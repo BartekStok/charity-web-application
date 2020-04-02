@@ -33,13 +33,13 @@ ALLOWED_HOSTS = ['127.0.0.1', '*.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
+    # 'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'whitenoise.runserver_nostatic',
     'charityapp'
 ]
 
@@ -128,7 +128,7 @@ STATICFILES_DIRS = (
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Email configuration for messages to admin
 
