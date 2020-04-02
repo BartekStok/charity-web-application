@@ -1,3 +1,5 @@
+ [![Charity](charityapp/static/images/decoration.svg)](https://charityapp-bartek-stoklosa.herokuapp.com/) 
+
 # Charity app
 
 Charity application for unused/unwanted things disposal.
@@ -6,14 +8,16 @@ Made on completion of a programming course Back-End Python Developer.
 
 ## Getting started
 
-Try this app online on Heroku (not yet started)
+Try this app online on Heroku [click here](https://charityapp-bartek-stoklosa.herokuapp.com/) 
 
-### Prerequisites
+### Used technologies:
 
-Used technologies:
 
 ```
-$ Python 3.6
+$ Python 3.6.9
+$ Django 3.0.4
+$ PostgreSQL
+$ Javascript
 ```
 
 ### Installing
