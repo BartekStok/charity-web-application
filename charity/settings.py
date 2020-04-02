@@ -153,6 +153,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'charityapp.email@gmail.com'
 EMAIL_PORT = 587
-with open('charity/email_password.txt') as f:
-    EMAIL_HOST_PASSWORD = f.read().strip()
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+# with open('charity/email_password.txt') as f:
+#     EMAIL_HOST_PASSWORD = f.read().strip()
 
