@@ -95,6 +95,7 @@ class AddDonationView(LoginRequiredMixin, View):
         else:
             return redirect("add-donation")
 
+
 class DonationConfirmationView(View):
     """View showing confirmation of adding a donation"""
 
@@ -246,7 +247,7 @@ class ContactFormView(View):
         if request.user:
             message = text + f' -->> od użytkownika {request.user.email}'
         else:
-            message = text
+            message = text + name + surname
         email = EmailMessage(
             f'Charity App mail from {name} {surname}',
             message,
