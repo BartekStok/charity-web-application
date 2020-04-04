@@ -23,8 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-with open('charity/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
+try:
+    with open('charity/secret_key.txt') as f:
+        SECRET_KEY = f.read().strip()
+except FileNotFoundError:
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECRET_KEY = os.environ.get('SECRET_KEY')
 
@@ -85,7 +88,15 @@ WSGI_APPLICATION = 'charity.wsgi.application'
 try:
     from charity.local_settings import DATABASES
 except ModuleNotFoundError:
-    print("Error by Database configuration in local settings!")
+    DATABASES = {
+        'default': {
+            'HOST': 'localhost',
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('USER_NAME'),
+            'PASSWORD': os.environ.get('PASSWORD'),
+        }
+    }
 
 
 # Password validation
@@ -143,7 +154,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'charityapp.email@gmail.com'
 EMAIL_PORT = 587
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-with open('charity/email_password.txt') as f:
-    EMAIL_HOST_PASSWORD = f.read().strip()
 
+try:
+    with open('charity/email_password.txt') as f:
+        EMAIL_HOST_PASSWORD = f.read().strip()
+except FileNotFoundError:
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
